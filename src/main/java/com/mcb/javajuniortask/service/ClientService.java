@@ -4,15 +4,12 @@ import com.mcb.javajuniortask.dto.ClientDTO;
 import com.mcb.javajuniortask.model.Client;
 import com.mcb.javajuniortask.model.Debt;
 import com.mcb.javajuniortask.repository.ClientRepository;
-
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
