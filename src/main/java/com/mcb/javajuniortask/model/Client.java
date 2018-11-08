@@ -23,4 +23,37 @@ public class Client {
     @OneToMany(mappedBy = "client")
     @Cascade(CascadeType.ALL)
     List<Debt> debts = new LinkedList<>();
+
+    public Client() {
+    }
+
+    public Client(UUID id, String name, List<Debt> debts) {
+        this.id = id;
+        this.name = name;
+        this.debts = debts;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Debt> getDebts() {
+        return debts;
+    }
+
+    public void setDebts(List<Debt> debts) {
+        this.debts = debts;
+    }
 }
