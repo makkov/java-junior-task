@@ -11,6 +11,8 @@ import org.springframework.shell.standard.ShellOption;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -57,4 +59,21 @@ public class ClientService {
         return debt.getId();
     }
 
+    @ShellMethod("Writes off part of db")
+    @Transactional
+    public void writeOffPartOfDebt(@ShellOption UUID clientId, @ShellOption BigDecimal amountOfPayment) {
+        Client client = clientRepository.findOne(clientId);
+        BigDecimal totalDebt = client.getDebts().stream().map(Debt::getValue).reduce(BigDecimal::add).get();
+        if (totalDebt.compareTo(amountOfPayment) < 0) {
+            System.out.println("Payment of the above debt. After the transaction, the balance will be\n " +
+                    totalDebt.subtract(amountOfPayment).abs() +
+                    " conventional unit");
+        }
+        /*Для уменьшения общего долга необходимо из суммы задолженностей вычесть вносимый платеж.
+         Определим одну операцию назначения долга, которую мы сможем изменять при каждом внесении платежа.
+        В данной реализации выбрана первая операция.
+         */
+        BigDecimal etDeb = client.getDebts().get(0).getValue();
+        client.getDebts().get(0).setValue(etDeb.subtract(amountOfPayment));
+    }
 }
